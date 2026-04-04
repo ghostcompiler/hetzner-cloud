@@ -1,6 +1,4 @@
 /vendor/
 /.phpunit.cache/
-# optional cache for scripts/build_method_summaries.py
+# optional local download of Hetzner OpenAPI (large); not required for the library
 demo/includes/cloud.spec.cache.json
-# intermediate; content is embedded into README.md
-docs/README_FUNCTION_REFERENCE.generated.md

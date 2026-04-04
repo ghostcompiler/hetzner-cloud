@@ -366,7 +366,7 @@ header('Content-Type: text/html; charset=utf-8');
                 if (m.summary) {
                     desc.innerHTML = '<strong>' + escHtml(m.summary) + '</strong>';
                 } else {
-                    desc.textContent = 'No API summary loaded. Run scripts/build_method_summaries.py to refresh method_summaries.json.';
+                    desc.textContent = 'No API summary for this method in demo/includes/method_summaries.json.';
                 }
                 div.appendChild(desc);
 

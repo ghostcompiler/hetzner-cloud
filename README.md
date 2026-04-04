@@ -104,22 +104,7 @@ Open [http://127.0.0.1:8080](http://127.0.0.1:8080) in your browser.
 
 ## Method reference (every command, with descriptions)
 
-This README includes an **auto-generated “All functions (usage)”** section (PHP signatures + HTTP + path + summary). **[docs/METHOD_REFERENCE.md](docs/METHOD_REFERENCE.md)** adds the same methods with **longer descriptions** (still sourced from the [Hetzner Cloud OpenAPI spec](https://docs.hetzner.cloud/cloud.spec.json)).
-
-To refresh summaries after an API change, run:
-
-```bash
-python3 scripts/build_method_summaries.py
-```
-
-If `demo/includes/cloud.spec.cache.json` is missing, the script **downloads** the spec from Hetzner automatically. You can also fetch it yourself:
-
-```bash
-curl -sL "https://docs.hetzner.cloud/cloud.spec.json" -o demo/includes/cloud.spec.cache.json
-python3 scripts/build_method_summaries.py
-```
-
-That updates [`demo/includes/method_summaries.json`](demo/includes/method_summaries.json) (used by the demo UI) and [`docs/METHOD_REFERENCE.md`](docs/METHOD_REFERENCE.md).
+This README includes an **“All functions (usage)”** section (PHP signatures + HTTP + path + summary). **[docs/METHOD_REFERENCE.md](docs/METHOD_REFERENCE.md)** lists the same methods with **longer descriptions**, aligned with the [Hetzner Cloud OpenAPI spec](https://docs.hetzner.cloud/cloud.spec.json). The [interactive demo](demo/) reads summaries from [`demo/includes/method_summaries.json`](demo/includes/method_summaries.json).
 
 ## How requests are built
 
@@ -191,7 +176,7 @@ $hc->actions->getActions([1001, 1002], ['per_page' => 25]);
 
 Each method maps to one HTTP call. Bodies are PHP `array` values shaped like the JSON in the [official API docs](https://docs.hetzner.cloud/reference/cloud). Many POST actions send an empty JSON object `{}` internally when no fields are required.
 
-Extended descriptions for each method: **[docs/METHOD_REFERENCE.md](docs/METHOD_REFERENCE.md)** and the [interactive demo](demo/). The **complete PHP usage table** (signatures + HTTP + path + summary) is auto-generated in the next section — refresh with `python3 scripts/build_method_summaries.py`.
+Extended descriptions for each method: **[docs/METHOD_REFERENCE.md](docs/METHOD_REFERENCE.md)** and the [interactive demo](demo/). The **complete PHP usage table** (signatures + HTTP + path + summary) is in the next section.
 
 ### What each `HetznerClient` property is for
 
