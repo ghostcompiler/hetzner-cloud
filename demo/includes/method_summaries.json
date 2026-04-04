@@ -1,0 +1,1174 @@
+{
+  "actions": {
+    "getActions": {
+      "summary": "Get multiple Actions",
+      "detail": "Returns multiple Action objects specified by the `id` parameter. **Note**: This endpoint previously allowed listing all actions in the project. This functionality was deprecated in July 2023 and removed on 30 January 2025. - Announcement: https://docs.hetzner.cloud/changelog#2023-07-20-actions-list-endpoint-is-deprecated - Removal:\u2026",
+      "http": "GET",
+      "path": "/actions"
+    },
+    "getAction": {
+      "summary": "Get an Action",
+      "detail": "Returns a specific Action object.",
+      "http": "GET",
+      "path": "/actions/{id}"
+    }
+  },
+  "certificates": {
+    "listCertificates": {
+      "summary": "List Certificates",
+      "detail": "Returns all Certificate objects.",
+      "http": "GET",
+      "path": "/certificates"
+    },
+    "createCertificate": {
+      "summary": "Create a Certificate",
+      "detail": "Creates a new Certificate. The default type **uploaded** allows for uploading your existing `certificate` and `private_key` in PEM format. You have to monitor its expiration date and handle renewal yourself. In contrast, type **managed** requests a new Certificate from *Let's Encrypt* for the specified `domain_names`. Only domains managed by *Hetzner DNS* are supported. We handle renewal and\u2026",
+      "http": "POST",
+      "path": "/certificates"
+    },
+    "listCertificatesActions": {
+      "summary": "List Actions",
+      "detail": "Returns all Action objects. You can `sort` the results by using the sort URI parameter, and filter them with the `status` and `id` parameter.",
+      "http": "GET",
+      "path": "/certificates/actions"
+    },
+    "getCertificatesAction": {
+      "summary": "Get an Action",
+      "detail": "Returns a specific Action object.",
+      "http": "GET",
+      "path": "/certificates/actions/{id}"
+    },
+    "getCertificate": {
+      "summary": "Get a Certificate",
+      "detail": "Gets a specific Certificate object.",
+      "http": "GET",
+      "path": "/certificates/{id}"
+    },
+    "updateCertificate": {
+      "summary": "Update a Certificate",
+      "detail": "Updates the Certificate properties. Note: if the Certificate object changes during the request, the response will be a \u201cconflict\u201d error.",
+      "http": "PUT",
+      "path": "/certificates/{id}"
+    },
+    "deleteCertificate": {
+      "summary": "Delete a Certificate",
+      "detail": "Deletes a Certificate.",
+      "http": "DELETE",
+      "path": "/certificates/{id}"
+    },
+    "listCertificateActions": {
+      "summary": "List Actions for a Certificate",
+      "detail": "Returns all Action objects for a Certificate. You can sort the results by using the `sort` URI parameter, and filter them with the `status` parameter. Only type `managed` Certificates can have Actions. For type `uploaded` Certificates the `actions` key will always contain an empty array.",
+      "http": "GET",
+      "path": "/certificates/{id}/actions"
+    },
+    "retryCertificate": {
+      "summary": "Retry Issuance or Renewal",
+      "detail": "Retry a failed Certificate issuance or renewal. Only applicable if the type of the Certificate is `managed` and the issuance or renewal status is `failed`. #### Operation specific errors | Status | Code | Description | | --- | --- | --- | | | `caa_record_does_not_allow_ca` | CAA record does not allow certificate authority | | | `ca_dns_validation_failed` | Certificate Authority: DNS validation\u2026",
+      "http": "POST",
+      "path": "/certificates/{id}/actions/retry"
+    },
+    "getCertificateAction": {
+      "summary": "Get an Action for a Certificate",
+      "detail": "Returns a specific Action for a Certificate. Only type `managed` Certificates have Actions.",
+      "http": "GET",
+      "path": "/certificates/{id}/actions/{action_id}"
+    }
+  },
+  "datacenters": {
+    "listDatacenters": {
+      "summary": "List Data Centers",
+      "detail": "Returns all Data Centers.",
+      "http": "GET",
+      "path": "/datacenters"
+    },
+    "getDatacenter": {
+      "summary": "Get a Data Center",
+      "detail": "Returns a single Data Center.",
+      "http": "GET",
+      "path": "/datacenters/{id}"
+    }
+  },
+  "firewalls": {
+    "listFirewalls": {
+      "summary": "List Firewalls",
+      "detail": "Returns all Firewalls. Use the provided URI parameters to modify the result.",
+      "http": "GET",
+      "path": "/firewalls"
+    },
+    "createFirewall": {
+      "summary": "Create a Firewall",
+      "detail": "Create a Firewall. #### Operation specific errors | Status | Code | Description | | --- | --- | --- | | `422` | `server_already_added` | The Server was applied more than once. | | `422` | `incompatible_network_type` | The resources network type is not supported by Firewalls. | | `422` | `firewall_resource_not_found` | The resource the Firewall should be attached to was not found. |",
+      "http": "POST",
+      "path": "/firewalls"
+    },
+    "listFirewallsActions": {
+      "summary": "List Actions",
+      "detail": "Returns all Actions for Firewalls. Use the provided URI parameters to modify the result.",
+      "http": "GET",
+      "path": "/firewalls/actions"
+    },
+    "getFirewallsAction": {
+      "summary": "Get an Action",
+      "detail": "Returns the specific Action.",
+      "http": "GET",
+      "path": "/firewalls/actions/{id}"
+    },
+    "getFirewall": {
+      "summary": "Get a Firewall",
+      "detail": "Returns a single Firewall.",
+      "http": "GET",
+      "path": "/firewalls/{id}"
+    },
+    "updateFirewall": {
+      "summary": "Update a Firewall",
+      "detail": "Update a Firewall. In case of a parallel running change on the Firewall a `conflict` error will be returned.",
+      "http": "PUT",
+      "path": "/firewalls/{id}"
+    },
+    "deleteFirewall": {
+      "summary": "Delete a Firewall",
+      "detail": "Deletes the Firewall. #### Operation specific errors | Status | Code | Description | | --- | --- | --- | | `422` | `resource_in_use` | Firewall still applied to a resource |",
+      "http": "DELETE",
+      "path": "/firewalls/{id}"
+    },
+    "listFirewallActions": {
+      "summary": "List Actions for a Firewall",
+      "detail": "Returns all Actions for the Firewall. Use the provided URI parameters to modify the result.",
+      "http": "GET",
+      "path": "/firewalls/{id}/actions"
+    },
+    "applyFirewallToResources": {
+      "summary": "Apply to Resources",
+      "detail": "Applies a Firewall to multiple resources. Supported resources: - Servers (with a public network interface) - Label Selectors A Server can be applied to a maximum of 5 Firewalls. This limit applies to Servers applied via a matching Label Selector as well. Updates to resources matching or no longer matching a Label Selector can take up to a few seconds to be processed. A Firewall is applied to a\u2026",
+      "http": "POST",
+      "path": "/firewalls/{id}/actions/apply_to_resources"
+    },
+    "removeFirewallFromResources": {
+      "summary": "Remove from Resources",
+      "detail": "Removes a Firewall from multiple resources. Supported resources: - Servers (with a public network interface) A Firewall is removed from a resource once the related Action with command `remove_firewall` successfully finished. #### Operation specific errors | Status | Code | Description | | --- | --- | --- | | `404` | `firewall_resource_not_found` | The resource the Firewall should be removed from\u2026",
+      "http": "POST",
+      "path": "/firewalls/{id}/actions/remove_from_resources"
+    },
+    "setFirewallRules": {
+      "summary": "Set Rules",
+      "detail": "Set the rules of a Firewall. Overwrites the existing rules with the given ones. Pass an empty array to remove all rules. Rules are limited to 50 entries per Firewall and 500 effective rules.",
+      "http": "POST",
+      "path": "/firewalls/{id}/actions/set_rules"
+    },
+    "getFirewallAction": {
+      "summary": "Get an Action for a Firewall",
+      "detail": "Returns a specific Action for a Firewall.",
+      "http": "GET",
+      "path": "/firewalls/{id}/actions/{action_id}"
+    }
+  },
+  "floatingIps": {
+    "listFloatingIps": {
+      "summary": "List Floating IPs",
+      "detail": "List multiple Floating IPs. Use the provided URI parameters to modify the result.",
+      "http": "GET",
+      "path": "/floating_ips"
+    },
+    "createFloatingIp": {
+      "summary": "Create a Floating IP",
+      "detail": "Create a Floating IP. Provide the `server` attribute to assign the Floating IP to that server or provide a `home_location` to locate the Floating IP at. Note that the Floating IP can be assigned to a Server in any Location later on. For optimal routing it is advised to use the Floating IP in the same Location it was created in.",
+      "http": "POST",
+      "path": "/floating_ips"
+    },
+    "listFloatingIpsActions": {
+      "summary": "List Actions",
+      "detail": "Lists multiple Actions. Use the provided URI parameters to modify the result.",
+      "http": "GET",
+      "path": "/floating_ips/actions"
+    },
+    "getFloatingIpsAction": {
+      "summary": "Get an Action",
+      "detail": "Returns a single Action.",
+      "http": "GET",
+      "path": "/floating_ips/actions/{id}"
+    },
+    "getFloatingIp": {
+      "summary": "Get a Floating IP",
+      "detail": "Returns a single Floating IP.",
+      "http": "GET",
+      "path": "/floating_ips/{id}"
+    },
+    "updateFloatingIp": {
+      "summary": "Update a Floating IP",
+      "detail": "Update a Floating IP.",
+      "http": "PUT",
+      "path": "/floating_ips/{id}"
+    },
+    "deleteFloatingIp": {
+      "summary": "Delete a Floating IP",
+      "detail": "Deletes a Floating IP. If assigned to a Server the Floating IP will be unassigned automatically until 1 May 2026. After this date, the Floating IP needs to be unassigned before it can be deleted. #### Operation specific errors | Status | Code | Description | | --- | --- | --- | | `422` | `must_be_unassigned` | Error when IP is still assigned to a Resource. This error will appear as of 1 May\u2026",
+      "http": "DELETE",
+      "path": "/floating_ips/{id}"
+    },
+    "listFloatingIpActions": {
+      "summary": "List Actions for a Floating IP",
+      "detail": "Lists Actions for a Floating IP. Use the provided URI parameters to modify the result.",
+      "http": "GET",
+      "path": "/floating_ips/{id}/actions"
+    },
+    "assignFloatingIp": {
+      "summary": "Assign a Floating IP to a Server",
+      "detail": "Assigns a Floating IP to a Server. #### Operation specific errors | Status | Code | Description | | --- | --- | --- | | `422` | `floating_ip_assigned` | The Floating IP is already assigned |",
+      "http": "POST",
+      "path": "/floating_ips/{id}/actions/assign"
+    },
+    "changeFloatingIpDnsPtr": {
+      "summary": "Change reverse DNS records for a Floating IP",
+      "detail": "Change the reverse DNS records for this Floating IP. Allows to modify the PTR records set for the IP address.",
+      "http": "POST",
+      "path": "/floating_ips/{id}/actions/change_dns_ptr"
+    },
+    "changeFloatingIpProtection": {
+      "summary": "Change Floating IP Protection",
+      "detail": "Changes the protection settings configured for the Floating IP.",
+      "http": "POST",
+      "path": "/floating_ips/{id}/actions/change_protection"
+    },
+    "unassignFloatingIp": {
+      "summary": "Unassign a Floating IP",
+      "detail": "Unassigns a Floating IP. Results in the IP being unreachable. Can be assigned to another resource again.",
+      "http": "POST",
+      "path": "/floating_ips/{id}/actions/unassign"
+    },
+    "getFloatingIpAction": {
+      "summary": "Get an Action for a Floating IP",
+      "detail": "Returns a specific Action for a Floating IP.",
+      "http": "GET",
+      "path": "/floating_ips/{id}/actions/{action_id}"
+    }
+  },
+  "images": {
+    "listImages": {
+      "summary": "List Images",
+      "detail": "Returns all Image objects. You can select specific Image types only and sort the results by using URI parameters.",
+      "http": "GET",
+      "path": "/images"
+    },
+    "listImagesActions": {
+      "summary": "List Actions",
+      "detail": "Returns all Action objects. You can `sort` the results by using the sort URI parameter, and filter them with the `status` and `id` parameter.",
+      "http": "GET",
+      "path": "/images/actions"
+    },
+    "getImagesAction": {
+      "summary": "Get an Action",
+      "detail": "Returns a specific Action object.",
+      "http": "GET",
+      "path": "/images/actions/{id}"
+    },
+    "getImage": {
+      "summary": "Get an Image",
+      "detail": "Returns a specific Image object.",
+      "http": "GET",
+      "path": "/images/{id}"
+    },
+    "updateImage": {
+      "summary": "Update an Image",
+      "detail": "Updates the Image. You may change the description, convert a Backup Image to a Snapshot Image or change the Image labels. Only Images of type `snapshot` and `backup` can be updated.",
+      "http": "PUT",
+      "path": "/images/{id}"
+    },
+    "deleteImage": {
+      "summary": "Delete an Image",
+      "detail": "Deletes an Image. Only Images of type `snapshot` and `backup` can be deleted.",
+      "http": "DELETE",
+      "path": "/images/{id}"
+    },
+    "listImageActions": {
+      "summary": "List Actions for an Image",
+      "detail": "Returns all Action objects for an Image. You can sort the results by using the `sort` URI parameter, and filter them with the `status` parameter.",
+      "http": "GET",
+      "path": "/images/{id}/actions"
+    },
+    "changeImageProtection": {
+      "summary": "Change Image Protection",
+      "detail": "Changes the protection configuration of the Image. Can only be used on snapshots.",
+      "http": "POST",
+      "path": "/images/{id}/actions/change_protection"
+    },
+    "getImageAction": {
+      "summary": "Get an Action for an Image",
+      "detail": "Returns a specific Action for an Image.",
+      "http": "GET",
+      "path": "/images/{id}/actions/{action_id}"
+    }
+  },
+  "isos": {
+    "listIsos": {
+      "summary": "List ISOs",
+      "detail": "Returns all available ISO objects.",
+      "http": "GET",
+      "path": "/isos"
+    },
+    "getIso": {
+      "summary": "Get an ISO",
+      "detail": "Returns a specific ISO object.",
+      "http": "GET",
+      "path": "/isos/{id}"
+    }
+  },
+  "loadBalancerTypes": {
+    "listLoadBalancerTypes": {
+      "summary": "List Load Balancer Types",
+      "detail": "Gets all Load Balancer type objects.",
+      "http": "GET",
+      "path": "/load_balancer_types"
+    },
+    "getLoadBalancerType": {
+      "summary": "Get a Load Balancer Type",
+      "detail": "Gets a specific Load Balancer type object.",
+      "http": "GET",
+      "path": "/load_balancer_types/{id}"
+    }
+  },
+  "loadBalancers": {
+    "listLoadBalancers": {
+      "summary": "List Load Balancers",
+      "detail": "Gets all existing Load Balancers that you have available.",
+      "http": "GET",
+      "path": "/load_balancers"
+    },
+    "createLoadBalancer": {
+      "summary": "Create a Load Balancer",
+      "detail": "Creates a Load Balancer. #### Operation specific errors | Status | Code | Description | | --- | --- | --- | | `412` | `source_port_already_used` | The source port you are trying to add is already in use | | `422` | `ip_not_owned` | The IP is not owned by the owner of the project of the Load Balancer | | `422` | `load_balancer_not_attached_to_network` | The Load Balancer is not attached to a\u2026",
+      "http": "POST",
+      "path": "/load_balancers"
+    },
+    "listLoadBalancersActions": {
+      "summary": "List Actions",
+      "detail": "Returns all Action objects. You can `sort` the results by using the sort URI parameter, and filter them with the `status` and `id` parameter.",
+      "http": "GET",
+      "path": "/load_balancers/actions"
+    },
+    "getLoadBalancersAction": {
+      "summary": "Get an Action",
+      "detail": "Returns a specific Action object.",
+      "http": "GET",
+      "path": "/load_balancers/actions/{id}"
+    },
+    "getLoadBalancer": {
+      "summary": "Get a Load Balancer",
+      "detail": "Gets a specific Load Balancer object.",
+      "http": "GET",
+      "path": "/load_balancers/{id}"
+    },
+    "updateLoadBalancer": {
+      "summary": "Update a Load Balancer",
+      "detail": "Updates a Load Balancer. You can update a Load Balancer\u2019s name and a Load Balancer\u2019s labels. Note: if the Load Balancer object changes during the request, the response will be a \u201cconflict\u201d error.",
+      "http": "PUT",
+      "path": "/load_balancers/{id}"
+    },
+    "deleteLoadBalancer": {
+      "summary": "Delete a Load Balancer",
+      "detail": "Deletes a Load Balancer.",
+      "http": "DELETE",
+      "path": "/load_balancers/{id}"
+    },
+    "listLoadBalancerActions": {
+      "summary": "List Actions for a Load Balancer",
+      "detail": "Returns all Action objects for a Load Balancer. You can sort the results by using the `sort` URI parameter, and filter them with the `status` parameter.",
+      "http": "GET",
+      "path": "/load_balancers/{id}/actions"
+    },
+    "addLoadBalancerService": {
+      "summary": "Add Service",
+      "detail": "Adds a service to a Load Balancer. #### Operation specific errors | Status | Code | Description | | --- | --- | --- | | `412` | `source_port_already_used` | The source port you are trying to add is already in use |",
+      "http": "POST",
+      "path": "/load_balancers/{id}/actions/add_service"
+    },
+    "addLoadBalancerTarget": {
+      "summary": "Add Target",
+      "detail": "Adds a target to a Load Balancer. #### Operation specific errors | Status | Code | Description | | --- | --- | --- | | `422` | `ip_not_in_vswitch_subnet` | The IP you are trying to add does not belong to the vswitch subnet of the attached network | | `422` | `ip_not_owned` | The IP you are trying to add as a target is not owned by the Project owner | | `422` |\u2026",
+      "http": "POST",
+      "path": "/load_balancers/{id}/actions/add_target"
+    },
+    "attachLoadBalancerToNetwork": {
+      "summary": "Attach a Load Balancer to a Network",
+      "detail": "Attach a Load Balancer to a Network. #### Operation specific errors | Status | Code | Description | | --- | --- | --- | | `422` | `load_balancer_already_attached` | The Load Balancer is already attached to a network | | `422` | `ip_not_available` | The provided Network IP is not available | | `422` | `no_subnet_available` | No Subnet or IP is available for the Load Balancer within the network |",
+      "http": "POST",
+      "path": "/load_balancers/{id}/actions/attach_to_network"
+    },
+    "changeLoadBalancerAlgorithm": {
+      "summary": "Change Algorithm",
+      "detail": "Change the algorithm that determines to which target new requests are sent.",
+      "http": "POST",
+      "path": "/load_balancers/{id}/actions/change_algorithm"
+    },
+    "changeLoadBalancerDnsPtr": {
+      "summary": "Change reverse DNS entry for this Load Balancer",
+      "detail": "Changes the hostname that will appear when getting the hostname belonging to the public IPs (IPv4 and IPv6) of this Load Balancer. Floating IPs assigned to the Server are not affected by this.",
+      "http": "POST",
+      "path": "/load_balancers/{id}/actions/change_dns_ptr"
+    },
+    "changeLoadBalancerProtection": {
+      "summary": "Change Load Balancer Protection",
+      "detail": "Changes the protection configuration of a Load Balancer.",
+      "http": "POST",
+      "path": "/load_balancers/{id}/actions/change_protection"
+    },
+    "changeLoadBalancerType": {
+      "summary": "Change the Type of a Load Balancer",
+      "detail": "Changes the type (Max Services, Max Targets and Max Connections) of a Load Balancer. #### Operation specific errors | Status | Code | Description | | --- | --- | --- | | `422` | `invalid_load_balancer_type` | The Load Balancer type does not fit for the given Load Balancer |",
+      "http": "POST",
+      "path": "/load_balancers/{id}/actions/change_type"
+    },
+    "deleteLoadBalancerService": {
+      "summary": "Delete Service",
+      "detail": "Delete a service of a Load Balancer.",
+      "http": "POST",
+      "path": "/load_balancers/{id}/actions/delete_service"
+    },
+    "detachLoadBalancerFromNetwork": {
+      "summary": "Detach a Load Balancer from a Network",
+      "detail": "Detaches a Load Balancer from a network.",
+      "http": "POST",
+      "path": "/load_balancers/{id}/actions/detach_from_network"
+    },
+    "disableLoadBalancerPublicInterface": {
+      "summary": "Disable the public interface of a Load Balancer",
+      "detail": "Disable the public interface of a Load Balancer. The Load Balancer will be not accessible from the internet via its public IPs. #### Operation specific errors | Status | Code | Description | | --- | --- | --- | | `422` | `load_balancer_not_attached_to_network` | The Load Balancer is not attached to a network | | `422` | `targets_without_use_private_ip` | The Load Balancer has targets that use\u2026",
+      "http": "POST",
+      "path": "/load_balancers/{id}/actions/disable_public_interface"
+    },
+    "enableLoadBalancerPublicInterface": {
+      "summary": "Enable the public interface of a Load Balancer",
+      "detail": "Enable the public interface of a Load Balancer. The Load Balancer will be accessible from the internet via its public IPs.",
+      "http": "POST",
+      "path": "/load_balancers/{id}/actions/enable_public_interface"
+    },
+    "removeLoadBalancerTarget": {
+      "summary": "Remove Target",
+      "detail": "Removes a target from a Load Balancer.",
+      "http": "POST",
+      "path": "/load_balancers/{id}/actions/remove_target"
+    },
+    "updateLoadBalancerService": {
+      "summary": "Update Service",
+      "detail": "Updates a Load Balancer Service. #### Operation specific errors | Status | Code | Description | | --- | --- | --- | | `422` | `source_port_already_used` | The source port you are trying to add is already in use |",
+      "http": "POST",
+      "path": "/load_balancers/{id}/actions/update_service"
+    },
+    "getLoadBalancerAction": {
+      "summary": "Get an Action for a Load Balancer",
+      "detail": "Returns a specific Action for a Load Balancer.",
+      "http": "GET",
+      "path": "/load_balancers/{id}/actions/{action_id}"
+    },
+    "getLoadBalancerMetrics": {
+      "summary": "Get Metrics for a LoadBalancer",
+      "detail": "You must specify the type of metric to get: `open_connections`, `connections_per_second`, `requests_per_second` or `bandwidth`. You can also specify more than one type by comma separation, e.g. `requests_per_second,bandwidth`. Depending on the type you will get different time series data: |Type | Timeseries | Unit | Description | |---- |------------|------|-------------| | open_connections |\u2026",
+      "http": "GET",
+      "path": "/load_balancers/{id}/metrics"
+    }
+  },
+  "locations": {
+    "listLocations": {
+      "summary": "List Locations",
+      "detail": "Returns all Locations.",
+      "http": "GET",
+      "path": "/locations"
+    },
+    "getLocation": {
+      "summary": "Get a Location",
+      "detail": "Returns a Location.",
+      "http": "GET",
+      "path": "/locations/{id}"
+    }
+  },
+  "networks": {
+    "listNetworks": {
+      "summary": "List Networks",
+      "detail": "List multiple Networks. Use the provided URI parameters to modify the result.",
+      "http": "GET",
+      "path": "/networks"
+    },
+    "createNetwork": {
+      "summary": "Create a Network",
+      "detail": "Creates a Network. The provided `ip_range` can only be extended later on, but not reduced. Subnets can be added now or later on using the add subnet action. If you do not specify an `ip_range` for the subnet the first available /24 range will be used. Routes can be added now or later by using the add route action.",
+      "http": "POST",
+      "path": "/networks"
+    },
+    "listNetworksActions": {
+      "summary": "List Actions",
+      "detail": "Lists multiple Actions. Use the provided URI parameters to modify the result.",
+      "http": "GET",
+      "path": "/networks/actions"
+    },
+    "getNetworksAction": {
+      "summary": "Get an Action",
+      "detail": "Returns a single Action.",
+      "http": "GET",
+      "path": "/networks/actions/{id}"
+    },
+    "getNetwork": {
+      "summary": "Get a Network",
+      "detail": "Get a specific Network.",
+      "http": "GET",
+      "path": "/networks/{id}"
+    },
+    "updateNetwork": {
+      "summary": "Update a Network",
+      "detail": "Update a Network. If a change is currently being performed on this Network, a error response with code `conflict` will be returned.",
+      "http": "PUT",
+      "path": "/networks/{id}"
+    },
+    "deleteNetwork": {
+      "summary": "Delete a Network",
+      "detail": "Deletes a Network. Attached resources will be detached automatically.",
+      "http": "DELETE",
+      "path": "/networks/{id}"
+    },
+    "listNetworkActions": {
+      "summary": "List Actions for a Network",
+      "detail": "Lists Actions for a Network. Use the provided URI parameters to modify the result.",
+      "http": "GET",
+      "path": "/networks/{id}/actions"
+    },
+    "addNetworkRoute": {
+      "summary": "Add a route to a Network",
+      "detail": "Adds a route entry to a Network. If a change is currently being performed on this Network, a error response with code `conflict` will be returned.",
+      "http": "POST",
+      "path": "/networks/{id}/actions/add_route"
+    },
+    "addNetworkSubnet": {
+      "summary": "Add a subnet to a Network",
+      "detail": "Adds a new subnet to the Network. If the subnet `ip_range` is not provided, the first available `/24` IP range will be used. If a change is currently being performed on this Network, a error response with code `conflict` will be returned.",
+      "http": "POST",
+      "path": "/networks/{id}/actions/add_subnet"
+    },
+    "changeNetworkIpRange": {
+      "summary": "Change IP range of a Network",
+      "detail": "Changes the IP range of a Network. The following restrictions apply to changing the IP range: - IP ranges can only be extended and never shrunk. - IPs can only be added to the end of the existing range, therefore only the netmask is allowed to be changed. To update the routes on the connected Servers, they need to be rebooted or the routes to be updated manually. For example if the Network has a\u2026",
+      "http": "POST",
+      "path": "/networks/{id}/actions/change_ip_range"
+    },
+    "changeNetworkProtection": {
+      "summary": "Change Network Protection",
+      "detail": "Changes the protection settings of a Network. If a change is currently being performed on this Network, a error response with code `conflict` will be returned.",
+      "http": "POST",
+      "path": "/networks/{id}/actions/change_protection"
+    },
+    "deleteNetworkRoute": {
+      "summary": "Delete a route from a Network",
+      "detail": "Delete a route entry from a Network. If a change is currently being performed on this Network, a error response with code `conflict` will be returned.",
+      "http": "POST",
+      "path": "/networks/{id}/actions/delete_route"
+    },
+    "deleteNetworkSubnet": {
+      "summary": "Delete a subnet from a Network",
+      "detail": "Deletes a single subnet entry from a Network. Subnets containing attached resources can not be deleted, they must be detached beforehand. If a change is currently being performed on this Network, a error response with code `conflict` will be returned.",
+      "http": "POST",
+      "path": "/networks/{id}/actions/delete_subnet"
+    },
+    "getNetworkAction": {
+      "summary": "Get an Action for a Network",
+      "detail": "Returns a specific Action for a Network.",
+      "http": "GET",
+      "path": "/networks/{id}/actions/{action_id}"
+    }
+  },
+  "placementGroups": {
+    "listPlacementGroups": {
+      "summary": "List Placement Groups",
+      "detail": "Returns all Placement Group objects.",
+      "http": "GET",
+      "path": "/placement_groups"
+    },
+    "createPlacementGroup": {
+      "summary": "Create a PlacementGroup",
+      "detail": "Creates a new Placement Group.",
+      "http": "POST",
+      "path": "/placement_groups"
+    },
+    "getPlacementGroup": {
+      "summary": "Get a PlacementGroup",
+      "detail": "Gets a specific Placement Group object.",
+      "http": "GET",
+      "path": "/placement_groups/{id}"
+    },
+    "updatePlacementGroup": {
+      "summary": "Update a PlacementGroup",
+      "detail": "Updates the Placement Group properties. Note: if the Placement Group object changes during the request, the response will be a \u201cconflict\u201d error.",
+      "http": "PUT",
+      "path": "/placement_groups/{id}"
+    },
+    "deletePlacementGroup": {
+      "summary": "Delete a PlacementGroup",
+      "detail": "Deletes a Placement Group.",
+      "http": "DELETE",
+      "path": "/placement_groups/{id}"
+    }
+  },
+  "pricing": {
+    "getPricing": {
+      "summary": "Get all prices",
+      "detail": "Returns prices for all resources available on the platform. VAT and currency of the Project owner are used for calculations. Both net and gross prices are included in the response.",
+      "http": "GET",
+      "path": "/pricing"
+    }
+  },
+  "primaryIps": {
+    "listPrimaryIps": {
+      "summary": "List Primary IPs",
+      "detail": "List multiple Primary IPs. Use the provided URI parameters to modify the result.",
+      "http": "GET",
+      "path": "/primary_ips"
+    },
+    "createPrimaryIp": {
+      "summary": "Create a Primary IP",
+      "detail": "Create a new Primary IP. Can optionally be assigned to a resource by providing an `assignee_id` and `assignee_type`. If not assigned to a resource the `location` key needs to be provided. This can be either the ID or the name of the Location this Primary IP shall be created in. A Primary IP can only be assigned to resource in the same Location later on. The `datacenter` key is deprecated in\u2026",
+      "http": "POST",
+      "path": "/primary_ips"
+    },
+    "listPrimaryIpsActions": {
+      "summary": "List Actions",
+      "detail": "Lists multiple Actions. Use the provided URI parameters to modify the result.",
+      "http": "GET",
+      "path": "/primary_ips/actions"
+    },
+    "getPrimaryIpsAction": {
+      "summary": "Get an Action",
+      "detail": "Returns a single Action.",
+      "http": "GET",
+      "path": "/primary_ips/actions/{id}"
+    },
+    "listPrimaryIpActions": {
+      "summary": "List Actions for a Primary IP",
+      "detail": "Returns all Actions for a Primary IP. Use the provided URI parameters to modify the result.",
+      "http": "GET",
+      "path": "/primary_ips/{id}/actions"
+    },
+    "getPrimaryIpAction": {
+      "summary": "Get an Action for a Primary IP",
+      "detail": "Returns a specific Action for a Primary IP.",
+      "http": "GET",
+      "path": "/primary_ips/{id}/actions/{action_id}"
+    },
+    "getPrimaryIp": {
+      "summary": "Get a Primary IP",
+      "detail": "Returns a Primary IP.",
+      "http": "GET",
+      "path": "/primary_ips/{id}"
+    },
+    "updatePrimaryIp": {
+      "summary": "Update a Primary IP",
+      "detail": "Update a Primary IP. If another change is concurrently performed on this Primary IP, a error response with code `conflict` will be returned.",
+      "http": "PUT",
+      "path": "/primary_ips/{id}"
+    },
+    "deletePrimaryIp": {
+      "summary": "Delete a Primary IP",
+      "detail": "Deletes a Primary IP. The Server must be powered off (status `off`) in order for this operation to succeed. If assigned to a Server the Primary IP will be unassigned automatically until 1 May 2026. After this date, the Primary IP needs to be unassigned before it can be deleted. #### Operation specific errors | Status | Code | Description | | --- | --- | --- | | `422` | `must_be_unassigned` |\u2026",
+      "http": "DELETE",
+      "path": "/primary_ips/{id}"
+    },
+    "assignPrimaryIp": {
+      "summary": "Assign a Primary IP to a resource",
+      "detail": "Assign a Primary IP to a resource. A Server can only have one Primary IP of type `ipv4` and one of type `ipv6` assigned. If you need more IPs use Floating IPs. A Server must be powered off (status `off`) in order for this operation to succeed. #### Operation specific errors | Status | Code | Description | | --- | --- | --- | | `422` | `server_not_stopped` | The Server is running, but needs to be\u2026",
+      "http": "POST",
+      "path": "/primary_ips/{id}/actions/assign"
+    },
+    "changePrimaryIpDnsPtr": {
+      "summary": "Change reverse DNS records for a Primary IP",
+      "detail": "Change the reverse DNS records for this Primary IP. Allows to modify the PTR records set for the IP address.",
+      "http": "POST",
+      "path": "/primary_ips/{id}/actions/change_dns_ptr"
+    },
+    "changePrimaryIpProtection": {
+      "summary": "Change Primary IP Protection",
+      "detail": "Changes the protection configuration of a Primary IP. A Primary IPs deletion protection can only be enabled if its `auto_delete` property is set to `false`.",
+      "http": "POST",
+      "path": "/primary_ips/{id}/actions/change_protection"
+    },
+    "unassignPrimaryIp": {
+      "summary": "Unassign a Primary IP from a resource",
+      "detail": "Unassign a Primary IP from a resource. A Server must be powered off (status `off`) in order for this operation to succeed. A Server requires at least one network interface (public or private) to be powered on. #### Operation specific errors | Status | Code | Description | | --- | --- | --- | | `422` | `server_not_stopped` | The Server is running, but needs to be powered off | | `422` |\u2026",
+      "http": "POST",
+      "path": "/primary_ips/{id}/actions/unassign"
+    }
+  },
+  "serverTypes": {
+    "listServerTypes": {
+      "summary": "List Server Types",
+      "detail": "Gets all Server type objects.",
+      "http": "GET",
+      "path": "/server_types"
+    },
+    "getServerType": {
+      "summary": "Get a Server Type",
+      "detail": "Gets a specific Server type object.",
+      "http": "GET",
+      "path": "/server_types/{id}"
+    }
+  },
+  "servers": {
+    "listServers": {
+      "summary": "List Servers",
+      "detail": "Returns all existing Server objects.",
+      "http": "GET",
+      "path": "/servers"
+    },
+    "createServer": {
+      "summary": "Create a Server",
+      "detail": "Creates a new Server. Returns preliminary information about the Server as well as an Action that covers progress of creation. #### Operation specific errors | Status | Code | Description | | --- | --- | --- | | `412` | `primary_ip_version_mismatch` | The specified Primary IP has the wrong IP Version | | `422` | `placement_error` | An error during the placement occurred | | `422` |\u2026",
+      "http": "POST",
+      "path": "/servers"
+    },
+    "listServersActions": {
+      "summary": "List Actions",
+      "detail": "Returns all Action objects. You can `sort` the results by using the sort URI parameter, and filter them with the `status` and `id` parameter.",
+      "http": "GET",
+      "path": "/servers/actions"
+    },
+    "getServersAction": {
+      "summary": "Get an Action",
+      "detail": "Returns a specific Action object.",
+      "http": "GET",
+      "path": "/servers/actions/{id}"
+    },
+    "getServer": {
+      "summary": "Get a Server",
+      "detail": "Returns a specific Server object. The Server must exist inside the Project.",
+      "http": "GET",
+      "path": "/servers/{id}"
+    },
+    "updateServer": {
+      "summary": "Update a Server",
+      "detail": "Updates a Server. You can update a Server\u2019s name and a Server\u2019s labels. Please note that Server names must be unique per Project and valid hostnames as per RFC 1123 (i.e. may only contain letters, digits, periods, and dashes).",
+      "http": "PUT",
+      "path": "/servers/{id}"
+    },
+    "deleteServer": {
+      "summary": "Delete a Server",
+      "detail": "Deletes a Server. This immediately removes the Server from your account, and it is no longer accessible. Any resources attached to the server (like Volumes, Primary IPs, Floating IPs, Firewalls, Placement Groups) are detached while the server is deleted.",
+      "http": "DELETE",
+      "path": "/servers/{id}"
+    },
+    "listServerActions": {
+      "summary": "List Actions for a Server",
+      "detail": "Returns all Action objects for a Server. You can `sort` the results by using the sort URI parameter, and filter them with the `status` parameter.",
+      "http": "GET",
+      "path": "/servers/{id}/actions"
+    },
+    "addServerToPlacementGroup": {
+      "summary": "Add a Server to a Placement Group",
+      "detail": "Adds a Server to a Placement Group. Server must be powered off for this command to succeed. #### Operation specific errors | Status | Code | Description | | --- | --- | --- | | `422` | `server_not_stopped` | The action requires a stopped server | | `422` | `already_in_placement_group` | The server is already part of a placement group |",
+      "http": "POST",
+      "path": "/servers/{id}/actions/add_to_placement_group"
+    },
+    "attachServerIso": {
+      "summary": "Attach an ISO to a Server",
+      "detail": "Attaches an ISO to a Server. The Server will immediately see it as a new disk. An already attached ISO will automatically be detached before the new ISO is attached. Servers with attached ISOs have a modified boot order: They will try to boot from the ISO first before falling back to hard disk.",
+      "http": "POST",
+      "path": "/servers/{id}/actions/attach_iso"
+    },
+    "attachServerToNetwork": {
+      "summary": "Attach a Server to a Network",
+      "detail": "Attaches a Server to a network. This will complement the fixed public Server interface by adding an additional ethernet interface to the Server which is connected to the specified network. The Server will get an IP auto assigned from a subnet of type `server` in the same `network_zone`. Using the `alias_ips` attribute you can also define one or more additional IPs to the Servers. Please note\u2026",
+      "http": "POST",
+      "path": "/servers/{id}/actions/attach_to_network"
+    },
+    "changeServerAliasIps": {
+      "summary": "Change alias IPs of a Network",
+      "detail": "Changes the alias IPs of an already attached Network. Note that the existing aliases for the specified Network will be replaced with these provided in the request body. So if you want to add an alias IP, you have to provide the existing ones from the Network plus the new alias IP in the request body.",
+      "http": "POST",
+      "path": "/servers/{id}/actions/change_alias_ips"
+    },
+    "changeServerDnsPtr": {
+      "summary": "Change reverse DNS entry for this Server",
+      "detail": "Changes the hostname that will appear when getting the hostname belonging to the primary IPs (IPv4 and IPv6) of this Server. Floating IPs assigned to the Server are not affected by this.",
+      "http": "POST",
+      "path": "/servers/{id}/actions/change_dns_ptr"
+    },
+    "changeServerProtection": {
+      "summary": "Change Server Protection",
+      "detail": "Changes the protection configuration of the Server.",
+      "http": "POST",
+      "path": "/servers/{id}/actions/change_protection"
+    },
+    "changeServerType": {
+      "summary": "Change the Type of a Server",
+      "detail": "Changes the type (Cores, RAM and disk sizes) of a Server. Server must be powered off for this command to succeed. This copies the content of its disk, and starts it again. You can only migrate to Server types with the same `storage_type` and equal or bigger disks. Shrinking disks is not possible as it might destroy data. If the disk gets upgraded, the Server type can not be downgraded any more.\u2026",
+      "http": "POST",
+      "path": "/servers/{id}/actions/change_type"
+    },
+    "createServerImage": {
+      "summary": "Create Image from a Server",
+      "detail": "Creates an Image (snapshot) from a Server by copying the contents of its disks. This creates a snapshot of the current state of the disk and copies it into an Image. If the Server is currently running you must make sure that its disk content is consistent. Otherwise, the created Image may not be readable. To make sure disk content is consistent, we recommend to shut down the Server prior to\u2026",
+      "http": "POST",
+      "path": "/servers/{id}/actions/create_image"
+    },
+    "detachServerFromNetwork": {
+      "summary": "Detach a Server from a Network",
+      "detail": "Detaches a Server from a network. The interface for this network will vanish.",
+      "http": "POST",
+      "path": "/servers/{id}/actions/detach_from_network"
+    },
+    "detachServerIso": {
+      "summary": "Detach an ISO from a Server",
+      "detail": "Detaches an ISO from a Server. In case no ISO Image is attached to the Server, the status of the returned Action is immediately set to `success`.",
+      "http": "POST",
+      "path": "/servers/{id}/actions/detach_iso"
+    },
+    "disableServerBackup": {
+      "summary": "Disable Backups for a Server",
+      "detail": "Disables the automatic backup option and deletes all existing Backups for a Server. No more additional charges for backups will be made. Caution: This immediately removes all existing backups for the Server!",
+      "http": "POST",
+      "path": "/servers/{id}/actions/disable_backup"
+    },
+    "disableServerRescue": {
+      "summary": "Disable Rescue Mode for a Server",
+      "detail": "Disables the Hetzner Rescue System for a Server. This makes a Server start from its disks on next reboot. Rescue Mode is automatically disabled when you first boot into it or if you do not use it for 60 minutes. Disabling rescue mode will not reboot your Server \u2014 you will have to do this yourself.",
+      "http": "POST",
+      "path": "/servers/{id}/actions/disable_rescue"
+    },
+    "enableServerBackup": {
+      "summary": "Enable and Configure Backups for a Server",
+      "detail": "Enables and configures the automatic daily backup option for the Server. Enabling automatic backups will increase the price of the Server by 20%. In return, you will get seven slots where Images of type backup can be stored. Backups are automatically created daily.",
+      "http": "POST",
+      "path": "/servers/{id}/actions/enable_backup"
+    },
+    "enableServerRescue": {
+      "summary": "Enable Rescue Mode for a Server",
+      "detail": "Enable the Hetzner Rescue System for this Server. The next time a Server with enabled rescue mode boots it will start a special minimal Linux distribution designed for repair and reinstall. In case a Server cannot boot on its own you can use this to access a Server\u2019s disks. Rescue Mode is automatically disabled when you first boot into it or if you do not use it for 60 minutes. Enabling rescue\u2026",
+      "http": "POST",
+      "path": "/servers/{id}/actions/enable_rescue"
+    },
+    "poweroffServer": {
+      "summary": "Power off a Server",
+      "detail": "Cuts power to the Server. This forcefully stops it without giving the Server operating system time to gracefully stop. May lead to data loss, equivalent to pulling the power cord. Power off should only be used when shutdown does not work.",
+      "http": "POST",
+      "path": "/servers/{id}/actions/poweroff"
+    },
+    "poweronServer": {
+      "summary": "Power on a Server",
+      "detail": "Starts a Server by turning its power on.",
+      "http": "POST",
+      "path": "/servers/{id}/actions/poweron"
+    },
+    "rebootServer": {
+      "summary": "Soft-reboot a Server",
+      "detail": "Reboots a Server gracefully by sending an ACPI request. The Server operating system must support ACPI and react to the request, otherwise the Server will not reboot.",
+      "http": "POST",
+      "path": "/servers/{id}/actions/reboot"
+    },
+    "rebuildServer": {
+      "summary": "Rebuild a Server from an Image",
+      "detail": "Rebuilds a Server overwriting its disk with the content of an Image, thereby **destroying all data** on the target Server The Image can either be one you have created earlier (`backup` or `snapshot` Image) or it can be a completely fresh `system` Image provided by us. You can get a list of all available Images with `GET /images`. Your Server will automatically be powered off before the rebuild\u2026",
+      "http": "POST",
+      "path": "/servers/{id}/actions/rebuild"
+    },
+    "removeServerFromPlacementGroup": {
+      "summary": "Remove from Placement Group",
+      "detail": "Removes a Server from a Placement Group.",
+      "http": "POST",
+      "path": "/servers/{id}/actions/remove_from_placement_group"
+    },
+    "requestServerConsole": {
+      "summary": "Request Console for a Server",
+      "detail": "Requests credentials for remote access via VNC over websocket to keyboard, monitor, and mouse for a Server. The provided URL is valid for 1 minute, after this period a new url needs to be created to connect to the Server. How long the connection is open after the initial connect is not subject to this timeout.",
+      "http": "POST",
+      "path": "/servers/{id}/actions/request_console"
+    },
+    "resetServer": {
+      "summary": "Reset a Server",
+      "detail": "Cuts power to a Server and starts it again. This forcefully stops it without giving the Server operating system time to gracefully stop. This may lead to data loss, it\u2019s equivalent to pulling the power cord and plugging it in again. Reset should only be used when reboot does not work.",
+      "http": "POST",
+      "path": "/servers/{id}/actions/reset"
+    },
+    "resetServerPassword": {
+      "summary": "Reset root Password of a Server",
+      "detail": "Resets the root password. Only works for Linux systems that are running the qemu guest agent. Server must be powered on (status `running`) in order for this operation to succeed. This will generate a new password for this Server and return it. If this does not succeed you can use the rescue system to netboot the Server and manually change your Server password by hand.",
+      "http": "POST",
+      "path": "/servers/{id}/actions/reset_password"
+    },
+    "shutdownServer": {
+      "summary": "Shutdown a Server",
+      "detail": "Shuts down a Server gracefully by sending an ACPI shutdown request. The Server operating system must support ACPI and react to the request, otherwise the Server will not shut down. Please note that the `action` status in this case only reflects whether the action was sent to the server. It does not mean that the server actually shut down successfully. If you need to ensure that the server is\u2026",
+      "http": "POST",
+      "path": "/servers/{id}/actions/shutdown"
+    },
+    "getServerAction": {
+      "summary": "Get an Action for a Server",
+      "detail": "Returns a specific Action object for a Server.",
+      "http": "GET",
+      "path": "/servers/{id}/actions/{action_id}"
+    },
+    "getServerMetrics": {
+      "summary": "Get Metrics for a Server",
+      "detail": "Get Metrics for specified Server. You must specify the type of metric to get: cpu, disk or network. You can also specify more than one type by comma separation, e.g. cpu,disk. Depending on the type you will get different time series data | Type | Timeseries | Unit | Description | |---------|-------------------------|-----------|------------------------------------------------------| | cpu | cpu\u2026",
+      "http": "GET",
+      "path": "/servers/{id}/metrics"
+    }
+  },
+  "sshKeys": {
+    "listSshKeys": {
+      "summary": "List SSH keys",
+      "detail": "Returns all SSH key objects.",
+      "http": "GET",
+      "path": "/ssh_keys"
+    },
+    "createSshKey": {
+      "summary": "Create an SSH key",
+      "detail": "Creates a new SSH key with the given `name` and `public_key`. Once an SSH key is created, it can be used in other calls such as creating Servers.",
+      "http": "POST",
+      "path": "/ssh_keys"
+    },
+    "getSshKey": {
+      "summary": "Get a SSH key",
+      "detail": "Returns a specific SSH key object.",
+      "http": "GET",
+      "path": "/ssh_keys/{id}"
+    },
+    "updateSshKey": {
+      "summary": "Update an SSH key",
+      "detail": "Updates an SSH key. You can update an SSH key name and an SSH key labels.",
+      "http": "PUT",
+      "path": "/ssh_keys/{id}"
+    },
+    "deleteSshKey": {
+      "summary": "Delete an SSH key",
+      "detail": "Deletes an SSH key. It cannot be used anymore.",
+      "http": "DELETE",
+      "path": "/ssh_keys/{id}"
+    }
+  },
+  "volumes": {
+    "listVolumes": {
+      "summary": "List Volumes",
+      "detail": "Gets all existing Volumes that you have available.",
+      "http": "GET",
+      "path": "/volumes"
+    },
+    "createVolume": {
+      "summary": "Create a Volume",
+      "detail": "Creates a new Volume attached to a Server. If you want to create a Volume that is not attached to a Server, you need to provide the `location` key instead of `server`. This can be either the ID or the name of the Location this Volume will be created in. Note that a Volume can be attached to a Server only in the same Location as the Volume itself. Specifying the Server during Volume creation will\u2026",
+      "http": "POST",
+      "path": "/volumes"
+    },
+    "listVolumesActions": {
+      "summary": "List Actions",
+      "detail": "Returns all Action objects. You can `sort` the results by using the sort URI parameter, and filter them with the `status` and `id` parameter.",
+      "http": "GET",
+      "path": "/volumes/actions"
+    },
+    "getVolumesAction": {
+      "summary": "Get an Action",
+      "detail": "Returns a specific Action object.",
+      "http": "GET",
+      "path": "/volumes/actions/{id}"
+    },
+    "getVolume": {
+      "summary": "Get a Volume",
+      "detail": "Gets a specific Volume object.",
+      "http": "GET",
+      "path": "/volumes/{id}"
+    },
+    "updateVolume": {
+      "summary": "Update a Volume",
+      "detail": "Updates the Volume properties.",
+      "http": "PUT",
+      "path": "/volumes/{id}"
+    },
+    "deleteVolume": {
+      "summary": "Delete a Volume",
+      "detail": "Deletes a volume. All Volume data is irreversibly destroyed. The Volume must not be attached to a Server and it must not have delete protection enabled.",
+      "http": "DELETE",
+      "path": "/volumes/{id}"
+    },
+    "listVolumeActions": {
+      "summary": "List Actions for a Volume",
+      "detail": "Returns all Action objects for a Volume. You can `sort` the results by using the sort URI parameter, and filter them with the `status` parameter.",
+      "http": "GET",
+      "path": "/volumes/{id}/actions"
+    },
+    "attachVolume": {
+      "summary": "Attach Volume to a Server",
+      "detail": "Attaches a Volume to a Server. Works only if the Server is in the same Location as the Volume.",
+      "http": "POST",
+      "path": "/volumes/{id}/actions/attach"
+    },
+    "changeVolumeProtection": {
+      "summary": "Change Volume Protection",
+      "detail": "Changes the protection configuration of a Volume.",
+      "http": "POST",
+      "path": "/volumes/{id}/actions/change_protection"
+    },
+    "detachVolume": {
+      "summary": "Detach Volume",
+      "detail": "Detaches a Volume from the Server it\u2019s attached to. You may attach it to a Server again at a later time.",
+      "http": "POST",
+      "path": "/volumes/{id}/actions/detach"
+    },
+    "resizeVolume": {
+      "summary": "Resize Volume",
+      "detail": "Changes the size of a Volume. Note that downsizing a Volume is not possible.",
+      "http": "POST",
+      "path": "/volumes/{id}/actions/resize"
+    },
+    "getVolumeAction": {
+      "summary": "Get an Action for a Volume",
+      "detail": "Returns a specific Action for a Volume.",
+      "http": "GET",
+      "path": "/volumes/{id}/actions/{action_id}"
+    }
+  },
+  "zones": {
+    "listZones": {
+      "summary": "List Zones",
+      "detail": "Returns all Zones. Use the provided URI parameters to modify the result.",
+      "http": "GET",
+      "path": "/zones"
+    },
+    "createZone": {
+      "summary": "Create a Zone",
+      "detail": "Creates a Zone. A default `SOA` and three `NS` resource records with the assigned Hetzner nameservers are created automatically.",
+      "http": "POST",
+      "path": "/zones"
+    },
+    "getZone": {
+      "summary": "Get a Zone",
+      "detail": "Returns a single Zone.",
+      "http": "GET",
+      "path": "/zones/{id_or_name}"
+    },
+    "updateZone": {
+      "summary": "Update a Zone",
+      "detail": "Updates a Zone. To modify resource record sets (RRSets), use the RRSet Actions endpoints.",
+      "http": "PUT",
+      "path": "/zones/{id_or_name}"
+    },
+    "deleteZone": {
+      "summary": "Delete a Zone",
+      "detail": "Deletes a Zone.",
+      "http": "DELETE",
+      "path": "/zones/{id_or_name}"
+    },
+    "getZoneZonefile": {
+      "summary": "Export a Zone file",
+      "detail": "Returns a generated Zone file in BIND (RFC 1034/1035) format. Only applicable for Zones in primary mode. #### Operation specific errors | Status | Code | Description | | --- | --- | --- | | `422` | `incorrect_zone_mode` | This operation is not supported for this Zone's `mode`. |",
+      "http": "GET",
+      "path": "/zones/{id_or_name}/zonefile"
+    },
+    "listZonesActions": {
+      "summary": "List Actions",
+      "detail": "Returns all Zone Actions. Use the provided URI parameters to modify the result.",
+      "http": "GET",
+      "path": "/zones/actions"
+    },
+    "getZonesAction": {
+      "summary": "Get an Action",
+      "detail": "Returns a specific Action.",
+      "http": "GET",
+      "path": "/zones/actions/{id}"
+    },
+    "listZoneActions": {
+      "summary": "List Actions for a Zone",
+      "detail": "Returns all Actions for a Zone. Use the provided URI parameters to modify the result.",
+      "http": "GET",
+      "path": "/zones/{id_or_name}/actions"
+    },
+    "getZoneAction": {
+      "summary": "Get an Action for a Zone",
+      "detail": "Returns a specific Action for a Zone.",
+      "http": "GET",
+      "path": "/zones/{id_or_name}/actions/{action_id}"
+    },
+    "changeZonePrimaryNameservers": {
+      "summary": "Change a Zone's Primary Nameservers",
+      "detail": "Overwrites the primary nameservers of a Zone. Only applicable for Zones in secondary mode. #### Operation specific errors | Status | Code | Description | | --- | --- | --- | | `422` | `incorrect_zone_mode` | This operation is not supported for this Zone's `mode`. |",
+      "http": "POST",
+      "path": "/zones/{id_or_name}/actions/change_primary_nameservers"
+    },
+    "changeZoneProtection": {
+      "summary": "Change a Zone's Protection",
+      "detail": "Changes the protection configuration of a Zone.",
+      "http": "POST",
+      "path": "/zones/{id_or_name}/actions/change_protection"
+    },
+    "changeZoneTtl": {
+      "summary": "Change a Zone's Default TTL",
+      "detail": "Changes the default Time To Live (TTL) of a Zone. This TTL is used for RRSets that do not explicitly define a TTL. Only applicable for Zones in primary mode. #### Operation specific errors | Status | Code | Description | | --- | --- | --- | | `422` | `incorrect_zone_mode` | This operation is not supported for this Zone's `mode`. |",
+      "http": "POST",
+      "path": "/zones/{id_or_name}/actions/change_ttl"
+    },
+    "importZoneZonefile": {
+      "summary": "Import a Zone file",
+      "detail": "Imports a zone file, replacing all resource record sets (RRSets). The import will fail if existing RRSet are `change` protected. See Zone file import for more details. Only applicable for Zones in primary mode. #### Operation specific errors | Status | Code | Description | | --- | --- | --- | | `422` | `incorrect_zone_mode` | This operation is not supported for this Zone's `mode`. |",
+      "http": "POST",
+      "path": "/zones/{id_or_name}/actions/import_zonefile"
+    },
+    "listZoneRrsets": {
+      "summary": "List RRSets",
+      "detail": "Returns all RRSets in the Zone. Use the provided URI parameters to modify the result. The maximum value for `per_page` on this endpoint is `100` instead of `50`. Only applicable for Zones in primary mode. #### Operation specific errors | Status | Code | Description | | --- | --- | --- | | `422` | `incorrect_zone_mode` | This operation is not supported for this Zone's `mode`. |",
+      "http": "GET",
+      "path": "/zones/{id_or_name}/rrsets"
+    },
+    "createZoneRrset": {
+      "summary": "Create an RRSet",
+      "detail": "Create an RRSet in the Zone. Only applicable for Zones in primary mode. #### Operation specific errors | Status | Code | Description | | --- | --- | --- | | `422` | `incorrect_zone_mode` | This operation is not supported for this Zone's `mode`. |",
+      "http": "POST",
+      "path": "/zones/{id_or_name}/rrsets"
+    },
+    "getZoneRrset": {
+      "summary": "Get an RRSet",
+      "detail": "Returns a single RRSet from the Zone. Only applicable for Zones in primary mode. #### Operation specific errors | Status | Code | Description | | --- | --- | --- | | `422` | `incorrect_zone_mode` | This operation is not supported for this Zone's `mode`. |",
+      "http": "GET",
+      "path": "/zones/{id_or_name}/rrsets/{rr_name}/{rr_type}"
+    },
+    "updateZoneRrset": {
+      "summary": "Update an RRSet",
+      "detail": "Updates an RRSet in the Zone. Only applicable for Zones in primary mode. #### Operation specific errors | Status | Code | Description | | --- | --- | --- | | `422` | `incorrect_zone_mode` | This operation is not supported for this Zone's `mode`. |",
+      "http": "PUT",
+      "path": "/zones/{id_or_name}/rrsets/{rr_name}/{rr_type}"
+    },
+    "deleteZoneRrset": {
+      "summary": "Delete an RRSet",
+      "detail": "Deletes an RRSet from the Zone. Only applicable for Zones in primary mode. #### Operation specific errors | Status | Code | Description | | --- | --- | --- | | `422` | `incorrect_zone_mode` | This operation is not supported for this Zone's `mode`. |",
+      "http": "DELETE",
+      "path": "/zones/{id_or_name}/rrsets/{rr_name}/{rr_type}"
+    },
+    "changeZoneRrsetProtection": {
+      "summary": "Change an RRSet's Protection",
+      "detail": "Changes the protection of an RRSet in the Zone. Only applicable for Zones in primary mode. #### Operation specific errors | Status | Code | Description | | --- | --- | --- | | `422` | `incorrect_zone_mode` | This operation is not supported for this Zone's `mode`. |",
+      "http": "POST",
+      "path": "/zones/{id_or_name}/rrsets/{rr_name}/{rr_type}/actions/change_protection"
+    },
+    "changeZoneRrsetTtl": {
+      "summary": "Change an RRSet's TTL",
+      "detail": "Changes the Time To Live (TTL) of an RRSet in the Zone. Only applicable for Zones in primary mode. #### Operation specific errors | Status | Code | Description | | --- | --- | --- | | `422` | `incorrect_zone_mode` | This operation is not supported for this Zone's `mode`. |",
+      "http": "POST",
+      "path": "/zones/{id_or_name}/rrsets/{rr_name}/{rr_type}/actions/change_ttl"
+    },
+    "setZoneRrsetRecords": {
+      "summary": "Set Records of an RRSet",
+      "detail": "Overwrites the resource records (RRs) of an existing RRSet in the Zone. Only applicable for Zones in primary mode. #### Operation specific errors | Status | Code | Description | | --- | --- | --- | | `422` | `incorrect_zone_mode` | This operation is not supported for this Zone's `mode`. |",
+      "http": "POST",
+      "path": "/zones/{id_or_name}/rrsets/{rr_name}/{rr_type}/actions/set_records"
+    },
+    "addZoneRrsetRecords": {
+      "summary": "Add Records to an RRSet",
+      "detail": "Adds resource records (RRs) to an RRSet in the Zone. For convenience, the RRSet will be automatically created if it doesn't exist. Otherwise, the new records are appended to the existing RRSet. Only applicable for Zones in primary mode. #### Operation specific errors | Status | Code | Description | | --- | --- | --- | | `422` | `incorrect_zone_mode` | This operation is not supported for this\u2026",
+      "http": "POST",
+      "path": "/zones/{id_or_name}/rrsets/{rr_name}/{rr_type}/actions/add_records"
+    },
+    "removeZoneRrsetRecords": {
+      "summary": "Remove Records from an RRSet",
+      "detail": "Removes resource records (RRs) from an existing RRSet in the Zone. For convenience, the RRSet will be automatically deleted if it doesn't contain any RRs afterwards. Only applicable for Zones in primary mode. #### Operation specific errors | Status | Code | Description | | --- | --- | --- | | `422` | `incorrect_zone_mode` | This operation is not supported for this Zone's `mode`. |",
+      "http": "POST",
+      "path": "/zones/{id_or_name}/rrsets/{rr_name}/{rr_type}/actions/remove_records"
+    },
+    "updateZoneRrsetRecords": {
+      "summary": "Update Records of an RRSet",
+      "detail": "Updates resource records' (RRs) comments of an existing RRSet in the Zone. Only applicable for Zones in primary mode. #### Operation specific errors | Status | Code | Description | | --- | --- | --- | | `422` | `incorrect_zone_mode` | This operation is not supported for this Zone's `mode`. |",
+      "http": "POST",
+      "path": "/zones/{id_or_name}/rrsets/{rr_name}/{rr_type}/actions/update_records"
+    }
+  }
+}

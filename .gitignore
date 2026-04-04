@@ -1,0 +1,4 @@
+/vendor/
+/.phpunit.cache/
+# optional cache for scripts/build_method_summaries.py
+demo/includes/cloud.spec.cache.json
