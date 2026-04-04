@@ -5,6 +5,8 @@ from __future__ import annotations
 
 import json
 import re
+import subprocess
+import sys
 import urllib.request
 from pathlib import Path
 
@@ -147,6 +149,39 @@ def main() -> None:
 
     n = sum(len(v) for v in by_res.values())
     print(f"Wrote {OUT_JSON} and {OUT_MD} ({len(by_res)} resources, {n} methods)")
+
+    php_script = ROOT / "scripts" / "generate_readme_function_reference.php"
+    if php_script.is_file():
+        subprocess.run(
+            ["php", str(php_script)],
+            check=True,
+            cwd=str(ROOT),
+        )
+    embed_readme_function_reference()
+
+
+def embed_readme_function_reference() -> None:
+    """Inject docs/README_FUNCTION_REFERENCE.generated.md into README.md between markers."""
+    readme_path = ROOT / "README.md"
+    frag_path = ROOT / "docs" / "README_FUNCTION_REFERENCE.generated.md"
+    start = "<!-- AUTO_FUNCTION_REFERENCE_START -->"
+    end = "<!-- AUTO_FUNCTION_REFERENCE_END -->"
+    if not frag_path.is_file():
+        print("WARN: skip README embed, missing", frag_path, file=sys.stderr)
+        return
+    text = readme_path.read_text(encoding="utf-8")
+    frag = frag_path.read_text(encoding="utf-8")
+    lines = frag.splitlines()
+    if lines and lines[0].startswith("<!-- Generated"):
+        frag = "\n".join(lines[1:]).lstrip("\n")
+    if start not in text or end not in text:
+        print("WARN: README missing AUTO_FUNCTION_REFERENCE markers", file=sys.stderr)
+        return
+    pre, _, rest = text.partition(start)
+    mid, _, post = rest.partition(end)
+    text = pre + start + "\n\n" + frag + "\n\n" + end + post
+    readme_path.write_text(text, encoding="utf-8")
+    print(f"Updated {readme_path} (embedded function reference)")
 
 
 if __name__ == "__main__":

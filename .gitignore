@@ -2,3 +2,5 @@
 /.phpunit.cache/
 # optional cache for scripts/build_method_summaries.py
 demo/includes/cloud.spec.cache.json
+# intermediate; content is embedded into README.md
+docs/README_FUNCTION_REFERENCE.generated.md
