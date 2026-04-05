@@ -19,7 +19,7 @@ Official OpenAPI description: [cloud.spec.json](https://docs.hetzner.cloud/cloud
 ## Installation
 
 ```bash
-composer require ghostcompiler/hetzner
+composer require ghostcompiler/hetzner-cloud
 ```
 
 Or add the path repository if you develop locally:
@@ -27,7 +27,7 @@ Or add the path repository if you develop locally:
 ```json
 {
   "repositories": [{ "type": "path", "url": "../hetzner" }],
-  "require": { "ghostcompiler/hetzner": "*" }
+  "require": { "ghostcompiler/hetzner-cloud": "*" }
 }
 ```
 
