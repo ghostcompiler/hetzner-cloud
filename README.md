@@ -13,7 +13,7 @@ Official OpenAPI description: [cloud.spec.json](https://docs.hetzner.cloud/cloud
 
 ## Requirements
 
-- PHP **8.1+**
+- PHP **8.1+** (works on current releases including **8.5+**). **PHP 7.4 and PHP 8.0 are not supported** — the library uses PHP 8.1 syntax (`readonly` properties, constructor property promotion, union types, and similar).
 - Extensions: **`curl`**, **`json`**
 
 ## Installation
@@ -87,11 +87,13 @@ The [`demo/`](demo/) folder is a **single-page explorer** (uses a little JavaScr
 1. Enter your **API token** once at the top (optional **Save in browser** → `localStorage`).
 2. Expand any **resource client** — every **public method** is listed with an **official summary**, **HTTP verb**, **path**, and a **short description** (from Hetzner’s OpenAPI spec), plus usage hints.
 3. Adjust parameters (JSON in textareas for `query` / `body` / `ids`, etc.), click **Run** for a **live** call via [`demo/api.php`](demo/api.php).
-4. **Copy response** copies the full JSON (success or error) to the clipboard.
+4. **Copy response** copies the full JSON (success or error). The page uses the **Clipboard API** when the browser reports a **secure context** (HTTPS, or **`http://localhost`** / **`http://127.0.0.1`** with the built-in server). In other cases (for example plain HTTP to a hostname that is not treated as local), it falls back to a hidden `textarea` and `document.execCommand('copy')`. If automatic copy still fails, an alert asks you to select the response text and use **Cmd+C** (macOS) or **Ctrl+C** (Windows/Linux).
 
 Use the **search box** to filter clients/methods by name.
 
 **Security:** local use only; do not expose `demo/` on a public server.
+
+**Tip:** Run the demo with `php -S 127.0.0.1:8080 -t demo` (or `localhost`) so clipboard-friendly origins match what browsers expect. Keep **`display_errors`** off in production PHP configs that serve JSON APIs — PHP warnings in the output break `JSON.parse` in the demo.
 
 From the **repository root**:
 
@@ -126,6 +128,8 @@ flowchart LR
 3. cURL sends HTTPS with `Authorization: Bearer <token>` and `Accept: application/json`.
 4. On **HTTP 2xx**, the JSON body is decoded to a PHP `array` and returned.
 5. On **HTTP 4xx/5xx** or cURL failure, an `ApiException` is thrown.
+
+**cURL lifecycle (PHP 8+):** From PHP 8.0, `curl_init()` returns a `CurlHandle` object that is freed when it goes out of scope. `CurlTransport` therefore does **not** call `curl_close()` on PHP 8.0 and later, which avoids the **PHP 8.5 deprecation** (`curl_close()` is a no-op since 8.0 and triggers notices in 8.5+). Those notices are especially harmful when `display_errors` is on, because they prepend HTML to JSON responses. The same helper still calls `curl_close()` only on PHP 7.x for legacy resource handles; this package’s **Composer requirement is PHP 8.1+**, so installs use the 8+ code path only.
 
 ## Authentication
 

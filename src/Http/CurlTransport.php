@@ -60,13 +60,13 @@ final class CurlTransport
         $raw = curl_exec($ch);
         if ($raw === false) {
             $err = curl_error($ch);
-            curl_close($ch);
+            $this->closeCurlIfNeeded($ch);
             throw new ApiException('cURL error: ' . $err, 0);
         }
 
         $status = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $headerSize = (int) curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-        curl_close($ch);
+        $this->closeCurlIfNeeded($ch);
 
         $headerBlock = substr($raw, 0, $headerSize);
         $responseBody = substr($raw, $headerSize);
@@ -113,6 +113,19 @@ final class CurlTransport
         }
 
         return implode('&', $pairs);
+    }
+
+    /**
+     * PHP 8.0+ uses CurlHandle objects that are released when out of scope; curl_close() is a no-op
+     * and is deprecated in PHP 8.5+. PHP 7.x still uses resources and should be closed explicitly.
+     *
+     * @param resource|\CurlHandle $ch
+     */
+    private function closeCurlIfNeeded($ch): void
+    {
+        if (\PHP_VERSION_ID < 80000) {
+            curl_close($ch);
+        }
     }
 
     /**

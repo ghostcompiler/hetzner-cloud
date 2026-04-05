@@ -277,33 +277,46 @@ header('Content-Type: text/html; charset=utf-8');
 
     function copyResponse(btn) {
         const out = btn.closest('.out');
-        const t = out.dataset.copyText || '';
+        const pre = out.querySelector('pre');
+        const t = (out.dataset.copyText || (pre && pre.textContent) || '').trim();
         if (!t) return;
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(t).then(function () {
-                btn.textContent = 'Copied!';
-                setTimeout(function () { btn.textContent = 'Copy response'; }, 1500);
-            }).catch(function () {
-                fallbackCopy(t, btn);
+
+        function done() {
+            btn.textContent = 'Copied!';
+            setTimeout(function () { btn.textContent = 'Copy response'; }, 1500);
+        }
+
+        // Clipboard API only works in secure contexts (HTTPS or localhost); otherwise use textarea fallback.
+        if (navigator.clipboard && navigator.clipboard.writeText && window.isSecureContext) {
+            navigator.clipboard.writeText(t).then(done).catch(function () {
+                fallbackCopy(t, btn, done);
             });
         } else {
-            fallbackCopy(t, btn);
+            fallbackCopy(t, btn, done);
         }
     }
 
-    function fallbackCopy(text, btn) {
+    function fallbackCopy(text, btn, done) {
         const ta = document.createElement('textarea');
         ta.value = text;
+        ta.setAttribute('readonly', '');
+        ta.style.cssText = 'position:fixed;left:0;top:0;width:1px;height:1px;padding:0;margin:0;border:none;outline:none;opacity:0;';
         document.body.appendChild(ta);
+        ta.focus();
         ta.select();
         try {
-            document.execCommand('copy');
-            btn.textContent = 'Copied!';
-            setTimeout(function () { btn.textContent = 'Copy response'; }, 1500);
-        } catch (e) {
-            alert('Copy manually from the box below.');
-        }
+            ta.setSelectionRange(0, text.length);
+        } catch (e) {}
+        var ok = false;
+        try {
+            ok = document.execCommand('copy');
+        } catch (e) {}
         document.body.removeChild(ta);
+        if (ok && typeof done === 'function') {
+            done();
+        } else {
+            alert('Could not copy automatically. Select the response text in the box above, then press Ctrl+C (Cmd+C on Mac).');
+        }
     }
 
     function escHtml(s) {
